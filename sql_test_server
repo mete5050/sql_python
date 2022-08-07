@@ -1,0 +1,40 @@
+import mysql.connector
+
+mydb = mysql.connector.connect(
+  host="bhri1hy8aev1vaqzdsyz-mysql.services.clever-cloud.com",
+  user="uwfmufwws9iah9ga",
+  password="7IHSBOXmZvYxzGAR6oyS",
+  database="bhri1hy8aev1vaqzdsyz"
+)
+
+print(mydb) 
+
+
+imlec = mydb.cursor()
+
+imlec.execute("DROP TABLE IF EXISTS coordnt")
+imlec.execute("CREATE TABLE coordnt (x VARCHAR(255) , y VARCHAR(255))")
+
+
+sql = "INSERT INTO coordnt(x,y) VALUES(%s,%s)"
+val = ("1079","212")
+imlec.execute(sql,val)
+mydb.commit()
+
+
+imlec.execute("SELECT * FROM coordnt")
+myresult = imlec.fetchall()
+print(myresult)
+for row in myresult:
+      x   = row[0]
+      y = row[1]
+
+mydb.commit()
+print(x)
+print(y)
+
+
+
+
+
+
