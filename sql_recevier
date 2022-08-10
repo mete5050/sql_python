@@ -1,0 +1,63 @@
+import mysql.connector
+import pyautogui
+import time
+import os
+
+mydb = mysql.connector.connect(
+    host="bhri1hy8aev1vaqzdsyz-mysql.services.clever-cloud.com",
+      user="uwfmufwws9iah9ga",
+  password="7IHSBOXmZvYxzGAR6oyS",
+  database="bhri1hy8aev1vaqzdsyz"
+)
+
+print(mydb) 
+don=1
+
+imlec = mydb.cursor()
+
+imlec.execute("DROP TABLE IF EXISTS coordnt2")
+imlec.execute("CREATE TABLE coordnt2 (x VARCHAR(255) , y VARCHAR(255))")
+print("ok")
+time1=time.perf_counter()
+X, Y = pyautogui.position() 
+print(X,Y)
+
+#transmit
+X=str(X)
+Y=str(Y)
+sql = "INSERT INTO coordnt2(x,y) VALUES(%s,%s)"
+val = (X,Y)
+imlec.execute(sql,val)
+mydb.commit()
+
+
+
+
+while don==1:
+
+    os.system("clear")
+    imlec = mydb.cursor()
+    time1=time.perf_counter()
+    try:
+        #recevie
+        imlec.execute("SELECT * FROM coordnt2")
+        myresult = imlec.fetchall()
+
+        for row in myresult:
+            x   = row[0]
+            y = row[1]
+    except:
+        print(" _____")
+    mydb.commit()
+    time2=time.perf_counter()
+    delay=time2-time1
+    print("x=",x,"  ","y=",y)
+    print(float(delay))
+    imlec.close()
+
+
+
+
+
+
+
